@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:6.0.3
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: apadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./data/mongodb:/data/db
+      - ./certs:/etc/mongo-certs
+    command: >
+      --tlsMode requireTLS
+      --tlsCertificateKeyFile /etc/mongo-certs/mongodb-cert.pem
+      --tlsCAFile /etc/mongo-certs/mongodb-cert.crt
+      --tlsAllowConnectionsWithoutCertificates
+    restart: unless-stopped
+
+  init-config:
+    image: ghcr.io/YOUR_USERNAME/init-config:latest
+    container_name: init-config
+    depends_on:
+      - mongodb
+    volumes:
+      - ./output:/opt/wax
+      - ./input:/opt/input
+    environment:
+      SERVER_TAR: /opt/input/server.tar.gz
+      GATEWAY_TAR: /opt/input/gateway.tar.gz
+      SERVICE_HOSTS: "localhost,127.0.0.1"
+      MGODB_HOST: mongodb
+      MGODB_PORT: 27017
+      MGODB_USER: apadmin
+      MGODB_DB: waxdb
+      MGODB_CERT: /opt/wax/mongodb/etc/mongodb-cert.pem
+      MGODB_KEY: /opt/wax/mongodb/etc/mongodb-cert.key
+      MGODB_CA: /opt/wax/mongodb/etc/mongodb-cert.crt
+    restart: "no"
