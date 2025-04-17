@@ -28,6 +28,7 @@ TCRTWEBKEY="${SERVER_ROOT}/bin/tcrtwebkey"
 TCRTCOMKEY="${SERVER_ROOT}/bin/tcrtcomkey"
 TCRTRDGKEY="${SERVER_ROOT}/bin/tcrtrdgkey"
 
+echo "ls ${SERVER_ROOT}/bin"
 [[ -x "$TCRTWEBKEY" ]] && "$TCRTWEBKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTCOMKEY" ]] && "$TCRTCOMKEY" -duration 87600h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTRDGKEY" ]] && "$TCRTRDGKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
