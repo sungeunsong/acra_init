@@ -21,8 +21,8 @@ echo "🧪 tar 파일 내부 확인 (Server.tar):"
 tar tf "$SERVER_TAR" | head
 
 mkdir -p "$SERVER_ROOT" "$GATEWAY_ROOT"
-tar xvf "$SERVER_TAR" --strip-components=1 -C "$SERVER_ROOT" >/dev/null
-tar xvf "$GATEWAY_TAR" --strip-components=1 -C "$GATEWAY_ROOT" >/dev/null
+tar xvf "$SERVER_TAR" --strip-components=1 -C "$SERVER_ROOT" || { echo "❌ Server.tar 압축 해제 실패"; exit 1; }
+tar xvf "$GATEWAY_TAR" --strip-components=1 -C "$GATEWAY_ROOT" || { echo "❌ Gateway.tar 압축 해제 실패"; exit 1; }
 
 # 실행 권한 보정
 echo "🧪 압축 후 디렉터리 상태:"
