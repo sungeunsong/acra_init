@@ -39,16 +39,12 @@ TCRTWEBKEY="${SERVER_ROOT}/bin/tcrtwebkey"
 TCRTCOMKEY="${SERVER_ROOT}/bin/tcrtcomkey"
 TCRTRDGKEY="${SERVER_ROOT}/bin/tcrtrdgkey"
 
-echo "확인해보자"
-ls -al ${SERVER_ROOT}/bin/
-pwd
-ls -al ${SERVER_ROOT}/bin/tcrtwebkey
-echo "확인 끝"
-
 [[ -x "$TCRTWEBKEY" ]] && "$TCRTWEBKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTCOMKEY" ]] && "$TCRTCOMKEY" -duration 87600h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTRDGKEY" ]] && "$TCRTRDGKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
+echo "인증서 생성 완료"
 
+echo "Gateway 설정 시작"
 ### [4] Gateway 설정 ###
 GTCONFIG="${GATEWAY_ROOT}/bin/config"
 if [[ -x "$GTCONFIG" ]]; then
@@ -58,7 +54,9 @@ if [[ -x "$GTCONFIG" ]]; then
     -sslcertpath "${SERVER_ROOT}/etc/https-cert.pem"
   "$GTCONFIG" -q -set mode -https
 fi
+ echo "Gateway 설정 완료"
 
+ echo "wdog 실행"
 ### [5] wdog 실행 (백그라운드) ###
 WDOGD="${SERVER_ROOT}/bin/wdogd"
 if [[ -x "$WDOGD" ]]; then
@@ -69,7 +67,9 @@ else
   echo "[ERROR] wdogd 실행 파일 없음"
   exit 1
 fi
-
+echo "10초 대기"
+sleep 10
+echo "tdog 등록 시작"
 ### [6] tdog으로 프로세스 등록 예시 ###
 TDOG="${SERVER_ROOT}/bin/tdog"
 if [[ -x "$TDOG" ]]; then
