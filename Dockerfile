@@ -1,9 +1,10 @@
-FROM alpine:3.19
+FROM debian:bullseye-slim
 
-RUN apk add --no-cache bash coreutils openssl tar
+RUN apt-get update && apt-get install -y \
+    bash coreutils openssl tar \
+    && apt-get clean
 
 COPY init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
 
 ENTRYPOINT ["/usr/local/bin/init.sh"]
-
