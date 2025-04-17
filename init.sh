@@ -13,15 +13,24 @@ GATEWAY_ROOT="/opt/wax/gateway"
 
 ### [2] 디렉토리 생성 및 압축 해제 ###
 echo "📦 제품 압축 해제 중..."
+echo "🧪 압축 대상 파일 확인:"
+ls -l "$SERVER_TAR"
+ls -l "$GATEWAY_TAR"
+
+echo "🧪 tar 파일 내부 확인 (Server.tar):"
+tar tf "$SERVER_TAR" | head
+
 mkdir -p "$SERVER_ROOT" "$GATEWAY_ROOT"
-tar xvf "$SERVER_TAR" -C "$SERVER_ROOT" 
-tar xvf "$GATEWAY_TAR" -C "$GATEWAY_ROOT" >/dev/null
+tar xvf "$SERVER_TAR" --strip-components=1 -C "$SERVER_ROOT" >/dev/null
+tar xvf "$GATEWAY_TAR" --strip-components=1 -C "$GATEWAY_ROOT" >/dev/null
 
-# 실행권한 보정
-chmod +x "${SERVER_ROOT}/bin/"*
-chmod +x "${GATEWAY_ROOT}/bin/"*
+# 실행 권한 보정
+echo "🧪 압축 후 디렉터리 상태:"
+ls -al "$SERVER_ROOT"
+ls -al "$SERVER_ROOT/bin"
 
-"ls -al ${SERVER_ROOT}"
+chmod +x "$SERVER_ROOT/bin"/*
+chmod +x "$GATEWAY_ROOT/bin"/*
 
 ### [3] 인증서 생성 ###
 CERT_HOSTS="localhost,127.0.0.1,${SERVICE_HOSTS}"
