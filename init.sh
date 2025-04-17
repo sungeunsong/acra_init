@@ -41,6 +41,8 @@ TCRTRDGKEY="${SERVER_ROOT}/bin/tcrtrdgkey"
 
 echo "확인해보자"
 ls -al ${SERVER_ROOT}/bin/
+pwd
+ls -al ${SERVER_ROOT}/bin/tcrtwebkey
 echo "확인 끝"
 
 [[ -x "$TCRTWEBKEY" ]] && "$TCRTWEBKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
