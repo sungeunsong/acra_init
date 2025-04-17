@@ -15,11 +15,13 @@ GATEWAY_ROOT="/opt/wax/gateway"
 echo "📦 제품 압축 해제 중..."
 mkdir -p "$SERVER_ROOT" "$GATEWAY_ROOT"
 tar xvf "$SERVER_TAR" -C "$SERVER_ROOT" 
-tar xvf "$GATEWAY_TAR" -C "$GATEWAY_ROOT" 
+tar xvf "$GATEWAY_TAR" -C "$GATEWAY_ROOT" >/dev/null
 
 # 실행권한 보정
 chmod +x "${SERVER_ROOT}/bin/"*
 chmod +x "${GATEWAY_ROOT}/bin/"*
+
+"ls -al ${SERVER_ROOT}/bin"
 
 ### [3] 인증서 생성 ###
 CERT_HOSTS="localhost,127.0.0.1,${SERVICE_HOSTS}"
@@ -28,7 +30,6 @@ TCRTWEBKEY="${SERVER_ROOT}/bin/tcrtwebkey"
 TCRTCOMKEY="${SERVER_ROOT}/bin/tcrtcomkey"
 TCRTRDGKEY="${SERVER_ROOT}/bin/tcrtrdgkey"
 
-echo "ls ${SERVER_ROOT}/bin"
 [[ -x "$TCRTWEBKEY" ]] && "$TCRTWEBKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTCOMKEY" ]] && "$TCRTCOMKEY" -duration 87600h0m0s -host "$CERT_HOSTS"
 [[ -x "$TCRTRDGKEY" ]] && "$TCRTRDGKEY" -duration 8760h0m0s -host "$CERT_HOSTS"
