@@ -21,7 +21,7 @@ tar xvf "$GATEWAY_TAR" -C "$GATEWAY_ROOT" >/dev/null
 chmod +x "${SERVER_ROOT}/bin/"*
 chmod +x "${GATEWAY_ROOT}/bin/"*
 
-"ls -al ${SERVER_ROOT}/bin"
+"ls -al ${SERVER_ROOT}"
 
 ### [3] 인증서 생성 ###
 CERT_HOSTS="localhost,127.0.0.1,${SERVICE_HOSTS}"
