@@ -17,8 +17,8 @@ echo "🧪 압축 대상 파일 확인:"
 ls -l "$SERVER_TAR"
 ls -l "$GATEWAY_TAR"
 
-echo "🧪 tar 파일 내부 확인 (Server.tar):"
-tar tf "$SERVER_TAR" | head
+# echo "🧪 tar 파일 내부 확인 (Server.tar):"
+# tar tf "$SERVER_TAR" | head
 
 echo " tar 압축 해제 시작"
 mkdir -p "$SERVER_ROOT" "$GATEWAY_ROOT"
