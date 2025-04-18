@@ -1,7 +1,8 @@
 FROM rockylinux:8
 
+# Allow erasing conflicting packages
 RUN dnf -y install \
-    bash coreutils openssl tar && \
+    bash coreutils openssl tar --allowerasing && \
     dnf clean all
 
 # 녹화 저장 경로 생성
